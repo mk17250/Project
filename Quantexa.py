@@ -21,7 +21,7 @@ def question_2():
 
 	# update relevant values of account+category: total, and counts of total number of transcations for account+category
 	for i in transactions:
-		if i[1] in accounts and i[3] in cats:
+		if i[1] in accounts and i[3] in cats: #IS THIS REQUIRED?
 			new_dict1[i[1]+'_'+i[3]] += i[4]
 			counts[i[1]+'_'+i[3]] += 1
 
@@ -39,7 +39,7 @@ def question_2():
 		if i.split('_')[0] not in nested_dict:
 			nested_dict[i.split('_')[0]] = ['AA:', avg_dict[i.split('_')[0]+'_AA'], 'BB:', avg_dict[i.split('_')[0]+'_BB'], 'CC:', avg_dict[i.split('_')[0]+'_CC'], 'DD:', avg_dict[i.split('_')[0]+'_DD'], 'EE:', avg_dict[i.split('_')[0]+'_EE'], 'FF:', avg_dict[i.split('_')[0]+'_FF'], 'GG:', avg_dict[i.split('_')[0]+'_GG']]
 	
-	# print results 
+	
 	# for key, value in nested_dict.items():
 	# 	print(key, value)
 
@@ -69,9 +69,16 @@ if __name__ == "__main__":
 	days = []
 	accounts = []
 	cats = []
+	cat_tots = {}
 	new_dict1 = {}
+	new_dict2 = {}
 	counts = {}
+	counts2 = {}
 	avg_dict = {}
+	max_val = {}
+	max_val_rol = {}
+	cats_q3 = ['AA', 'CC', 'FF']
+	rolling_days = [x for x in range(6, 30)]
 
 	# create lists for sets of days, accounts, categories 
 	for i in transactions:
@@ -92,3 +99,40 @@ if __name__ == "__main__":
 	question_2()
 
 
+# Q3 
+
+#create placeholders (dicts) for totals for each account on each day, number of transactions for each account each day, max val for each account each day 
+for i in accounts:
+		for j in days:
+			new_dict2[i+'_'+str(j)] = 0
+			counts2[i+'_'+str(j)] = 0
+			max_val[i+'_'+str(j)] = 0
+
+for i in accounts:
+	for day in rolling_days:
+		max_val_rol[i+'_'+str(day)] = 0
+
+# populate values for totals for each account on each day, number of transactions for each account on each day, max val for each account each day, 
+# transaction amount for account on each days if 'AA'|'CC'|'FF'
+for line in transactions:
+	new_dict2[line[1]+'_'+str(line[2])] += line[4]
+	counts2[line[1]+'_'+str(line[2])] += 1
+	if line[4] > max_val[line[1]+'_'+str(line[2])]:
+		max_val[line[1]+'_'+str(line[2])] = line[4]
+	if line[3] in cats_q3:
+		cat_tots[line[1]+'_'+str(line[2])+'_'+line[3]] = line[4]
+
+# for day in rolling_days:
+
+# for day in rolling_days:
+
+mini=0
+
+for day in rolling_days:
+	for key, item in max_val.items():
+		if int(key.split('_')[1]) > mini < day:
+			if max_val[key] > max_val_rol[key]:
+				
+				print('hi')
+			# 	max_val_rol[key] = max_val[key]
+	mini+=1			
